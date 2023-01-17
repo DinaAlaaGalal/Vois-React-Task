@@ -42,8 +42,7 @@ const BookShelve: React.FC<any> = (props: { data: book[]; title: string }) => {
   const dispatch = useDispatch();
 
   // handleSelectionChange 
-  const handleSelectionChange =
-    ((event: React.ChangeEvent<HTMLSelectElement>, b: book) => {
+  const handleSelectionChange =useCallback((event: React.ChangeEvent<HTMLSelectElement>, b: book) => {
       if (event.target.value === Types.CURRENTLY_READING) {
         b.shelf = Types.CURRENTLY_READING;
         update(b, Types.CURRENTLY_READING).then((res) => {
@@ -84,7 +83,7 @@ const BookShelve: React.FC<any> = (props: { data: book[]; title: string }) => {
         dispatch(readAction.removeRead(b));
         dispatch(noneAction.none(b));
       }
-    }
+    },[dispatch]
   );
 
   return (

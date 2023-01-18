@@ -57,7 +57,7 @@ const Search: React.FC<any> = () => {
     };
   }, []);
 
-  // handle Textinput change
+  // handle Textinput change 
   const changeHandler = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if ((e.target as HTMLInputElement).value !== "" && e.code === "Enter") {

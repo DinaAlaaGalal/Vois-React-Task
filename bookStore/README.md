@@ -23,7 +23,7 @@ This is a mini bokstore project where you have staus shelves :
 ### 3- read `when you already read it`
 
 <image src='https://images.app.goo.gl/EerH9Joff7Rp3VQY9' width='200' height='200'/>
-- you can also search for any book type and add it to you shelves ;)
+- you can also search for any book type and add it to you shelves ;) put u must press enter
 
 # project files Map
 

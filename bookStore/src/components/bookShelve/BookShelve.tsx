@@ -92,7 +92,7 @@ const BookShelve: React.FC<any> = (props: { data: book[]; title: string }) => {
       <hr className="hr"></hr>
       <div className="bookshelf-books">
         <ol className="books-grid">
-          {data.map((book: book, i: number) => {
+          {data?.map((book: book, i: number) => {
             return (
               <li key={i}>
                 <div className="book">

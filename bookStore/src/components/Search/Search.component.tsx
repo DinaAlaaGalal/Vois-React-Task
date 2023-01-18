@@ -15,7 +15,7 @@ const Search: React.FC<any> = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-// selecting data from store
+  // selecting data from store
 
   const currentlyReading: book[] = useSelector<RootState, book[]>(
     (state: RootState) => state.currentlyReadingReducer.currentlyReading
@@ -27,11 +27,10 @@ const Search: React.FC<any> = () => {
     (state: RootState) => state.wantToReadReducer.wantToRead
   );
 
-
   let [searchedBooks, setSearchedBooks] = useState([]);
   let data: book[] = [];
 
- // add data as it is removed when component unmount :( remove data in unmount to prevent data duplication n remount
+  // add data as it is removed when component unmount :( remove data in unmount to prevent data duplication n remount
   useEffect(() => {
     getAll().then((bookShelves) => {
       data = bookShelves;
@@ -61,33 +60,41 @@ const Search: React.FC<any> = () => {
   // handle Textinput change
   const changeHandler = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
-      search((e.target as HTMLInputElement).value).then((res) => {
-        let mappedData = res.map((book: book) => {
-          const cr = currentlyReading.map((crbooks) => {
-            if (book.title === crbooks.title) {
-              book.shelf = crbooks.shelf;
-              return { crbooks };
-            }
-            return book;
-          });
-          const wr = wantToRead.map((wtrbooks) => {
-            if (book.title === wtrbooks.title) {
-              book.shelf = wtrbooks.shelf;
-              return { wtrbooks };
-            }
-            return book;
-          });
-          const rb = read.map((rbooks) => {
-            if (book.title === rbooks.title) {
-              book.shelf = rbooks.shelf;
-              return { rbooks };
-            }
-            return book;
-          });
-          return { ...book, ...cr, ...wr, ...rb };
+      if ((e.target as HTMLInputElement).value !== "" && e.code === "Enter") {
+        search((e.target as HTMLInputElement).value).then((res) => {
+          if (res.length) {
+            let mappedData = res?.map((book: book) => {
+              const cr = currentlyReading.map((crbooks) => {
+                if (book.title === crbooks.title) {
+                  book.shelf = crbooks.shelf;
+                  return { crbooks };
+                }
+                return book;
+              });
+              const wr = wantToRead.map((wtrbooks) => {
+                if (book.title === wtrbooks.title) {
+                  book.shelf = wtrbooks.shelf;
+                  return { wtrbooks };
+                }
+                return book;
+              });
+              const rb = read.map((rbooks) => {
+                if (book.title === rbooks.title) {
+                  book.shelf = rbooks.shelf;
+                  return { rbooks };
+                }
+                return book;
+              });
+              return { ...book, ...cr, ...wr, ...rb };
+            });
+            setSearchedBooks(mappedData);
+          } else {
+            setSearchedBooks([]);
+          }
         });
-        setSearchedBooks(mappedData);
-      });
+      } else {
+        setSearchedBooks([]);
+      }
     },
     [read, wantToRead, currentlyReading]
   );
@@ -99,8 +106,7 @@ const Search: React.FC<any> = () => {
     <div>
       <div className="search-books">
         <div className="search-books-bar">
-          <button className="close-search" onClick={goback}>
-          </button>
+          <button className="close-search" onClick={goback}></button>
           <div className="search-books-input-wrapper">
             <input
               type="text"
